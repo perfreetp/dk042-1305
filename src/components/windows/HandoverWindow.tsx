@@ -65,13 +65,17 @@ export function HandoverWindow() {
 
   const handleHandover = () => {
     const completed = completeHandover();
+    setShowConfirm(false);
     if (completed) {
       addAlert({
         type: 'success',
-        message: `交接班完成！本班次已闭环 ${completed.performanceSummary?.completedCount || 0} 项`,
+        message: `交接班完成！本班次已闭环 ${completed.performanceSummary?.completedCount || 0} 项，未完成 ${completed.unfinishedItems.length} 项已移交下一班`,
       });
-      setShowConfirm(false);
     }
+  };
+
+  const handleCancelHandover = () => {
+    setShowConfirm(false);
   };
 
   const getGradeColor = (rate: number) => {
@@ -313,7 +317,8 @@ export function HandoverWindow() {
         cancelText="取消"
         variant="warning"
         onConfirm={handleHandover}
-        onCancel={() => setShowConfirm(false)}
+        onCancel={handleCancelHandover}
+        onClose={handleCancelHandover}
       />
     </div>
   );

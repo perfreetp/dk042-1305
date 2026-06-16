@@ -345,7 +345,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       userId: state.currentUser.id,
       userName: state.currentUser.name,
       startTime: new Date(),
-      unfinishedItems: [],
+      unfinishedItems: unfinished,
       previousShiftId: completedShift.id,
     };
 

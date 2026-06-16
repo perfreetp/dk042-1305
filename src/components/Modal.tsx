@@ -50,6 +50,7 @@ interface ConfirmDialogProps {
   open: boolean;
   onClose: () => void;
   onConfirm: () => void;
+  onCancel?: () => void;
   title: string;
   message: React.ReactNode;
   confirmText?: string;
@@ -61,6 +62,7 @@ export function ConfirmDialog({
   open,
   onClose,
   onConfirm,
+  onCancel,
   title,
   message,
   confirmText = '确认',
@@ -74,20 +76,23 @@ export function ConfirmDialog({
     warning: 'btn-primary',
   }[variant];
 
+  const handleCancel = () => {
+    onCancel?.();
+    onClose();
+  };
+
+  const handleConfirm = () => {
+    onConfirm();
+  };
+
   return (
-    <Modal isOpen={open} onClose={onClose} title={title} size="sm">
+    <Modal isOpen={open} onClose={handleCancel} title={title} size="sm">
       <div className="text-text-secondary mb-6">{message}</div>
       <div className="flex justify-end gap-3">
-        <button className="btn-secondary" onClick={onClose}>
+        <button className="btn-secondary" onClick={handleCancel}>
           {cancelText}
         </button>
-        <button
-          className={buttonClass}
-          onClick={() => {
-            onConfirm();
-            onClose();
-          }}
-        >
+        <button className={buttonClass} onClick={handleConfirm}>
           {confirmText}
         </button>
       </div>
